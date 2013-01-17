@@ -264,12 +264,12 @@ void ConnectionCreatorintegration::test_external_op_puppet_nonexistant()
     ASSERT_EQUAL(m_Link_send_sent->getTo(), m_creator->getId());
 }
 
-void TestWorld::message(const Operation & op, Entity & ent)
+void TestWorld::message(const Operation & op, LocatedEntity & ent)
 {
     ConnectionCreatorintegration::BaseWorld_message_called(op, ent);
 }
 
-Entity * TestWorld::addNewEntity(const std::string &,
+LocatedEntity * TestWorld::addNewEntity(const std::string &,
                                  const Atlas::Objects::Entity::RootEntity &)
 {
     return 0;
@@ -327,7 +327,7 @@ int UNSEEN_NO = -1;
 int UPDATE_NO = -1;
 } } }
 
-Pedestrian::Pedestrian(Entity & body) : Movement(body)
+Pedestrian::Pedestrian(LocatedEntity & body) : Movement(body)
 {
 }
 
@@ -352,7 +352,7 @@ Operation Pedestrian::generateMove(const Location & new_location)
     return moveOp;
 }
 
-Movement::Movement(Entity & body) : m_body(body),
+Movement::Movement(LocatedEntity & body) : m_body(body),
                                     m_serialno(0)
 {
 }
@@ -926,13 +926,13 @@ void OutfitProperty::cleanUp()
 {
 }
 
-void OutfitProperty::wear(Entity * wearer,
+void OutfitProperty::wear(LocatedEntity * wearer,
                           const std::string & location,
                           Entity * garment)
 {
 }
 
-void OutfitProperty::itemRemoved(Entity * garment, Entity * wearer)
+void OutfitProperty::itemRemoved(LocatedEntity * garment, LocatedEntity * wearer)
 {
 }
 
@@ -970,34 +970,34 @@ TasksProperty * TasksProperty::copy() const
     return 0;
 }
 
-int TasksProperty::startTask(Task *, Entity *, const Operation &, OpVector &)
+int TasksProperty::startTask(Task *, LocatedEntity *, const Operation &, OpVector &)
 {
     return 0;
 }
 
-int TasksProperty::updateTask(Entity *, OpVector &)
+int TasksProperty::updateTask(LocatedEntity *, OpVector &)
 {
     return 0;
 }
 
-int TasksProperty::clearTask(Entity *, OpVector &)
+int TasksProperty::clearTask(LocatedEntity *, OpVector &)
 {
     return 0;
 }
 
-void TasksProperty::stopTask(Entity *, OpVector &)
+void TasksProperty::stopTask(LocatedEntity *, OpVector &)
 {
 }
 
-void TasksProperty::TickOperation(Entity *, const Operation &, OpVector &)
+void TasksProperty::TickOperation(LocatedEntity *, const Operation &, OpVector &)
 {
 }
 
-void TasksProperty::UseOperation(Entity *, const Operation &, OpVector &)
+void TasksProperty::UseOperation(LocatedEntity *, const Operation &, OpVector &)
 {
 }
 
-HandlerResult TasksProperty::operation(Entity *, const Operation &, OpVector &)
+HandlerResult TasksProperty::operation(LocatedEntity *, const Operation &, OpVector &)
 {
     return OPERATION_IGNORED;
 }
@@ -1010,11 +1010,11 @@ PropertyBase::~PropertyBase()
 {
 }
 
-void PropertyBase::install(Entity *)
+void PropertyBase::install(LocatedEntity *)
 {
 }
 
-void PropertyBase::apply(Entity *)
+void PropertyBase::apply(LocatedEntity *)
 {
 }
 
@@ -1029,7 +1029,7 @@ void PropertyBase::add(const std::string & s,
 {
 }
 
-HandlerResult PropertyBase::operation(Entity *,
+HandlerResult PropertyBase::operation(LocatedEntity *,
                                       const Operation &,
                                       OpVector &)
 {
@@ -1121,7 +1121,7 @@ StatusProperty * StatusProperty::copy() const
     return 0;
 }
 
-void StatusProperty::apply(Entity * owner)
+void StatusProperty::apply(LocatedEntity * owner)
 {
 }
 
@@ -1129,7 +1129,7 @@ BBoxProperty::BBoxProperty()
 {
 }
 
-void BBoxProperty::apply(Entity * ent)
+void BBoxProperty::apply(LocatedEntity * ent)
 {
 }
 
@@ -1243,7 +1243,7 @@ TypeNode::~TypeNode()
 
 BaseWorld * BaseWorld::m_instance = 0;
 
-BaseWorld::BaseWorld(Entity & gw) : m_gameWorld(gw)
+BaseWorld::BaseWorld(LocatedEntity & gw) : m_gameWorld(gw)
 {
     m_instance = this;
 }
@@ -1254,7 +1254,7 @@ BaseWorld::~BaseWorld()
     delete &m_gameWorld;
 }
 
-Entity * BaseWorld::getEntity(const std::string & id) const
+LocatedEntity * BaseWorld::getEntity(const std::string & id) const
 {
     long intId = integerId(id);
 
@@ -1267,7 +1267,7 @@ Entity * BaseWorld::getEntity(const std::string & id) const
     }
 }
 
-Entity * BaseWorld::getEntity(long id) const
+LocatedEntity * BaseWorld::getEntity(long id) const
 {
     EntityDict::const_iterator I = m_eobjects.find(id);
     if (I != m_eobjects.end()) {
@@ -1306,7 +1306,7 @@ const Root & Inheritance::getClass(const std::string & parent)
     return noClass;
 }
 
-EntityRef::EntityRef(Entity* e) : m_inner(e)
+EntityRef::EntityRef(LocatedEntity* e) : m_inner(e)
 {
 }
 
